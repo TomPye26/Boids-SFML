@@ -3,40 +3,18 @@
 #include <vector>
 #include <random>
 
-#include "BoidObject.hpp"
+// #include "BoidObject.hpp"
+# include "Flock.hpp"
 
 int main()
 {
-    // random normal dist gen
-    std::random_device rd; 
-    std::mt19937 gen(rd());
-    std::normal_distribution<> dist(0.0, 100);
+
 
     // SFML window
-    sf::RenderWindow window(sf::VideoMode({1000, 1000}), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode({2000, 1500}), "SFML works!");
     window.setFramerateLimit(60);
-
-    // create collection of boids
-    std::vector<BoidObject> boids;
-    int pos0 = 100;
-    for (int i=0; i<10; i++) {
-        float velX, velY;
-        velX = dist(gen);
-        velY = dist(gen);
-
-        std::cout << "V_x, V_y = " << velX << ", " << velY << std::endl;
-        pos0 += 50;
-
-        BoidObject boid(
-            &window,
-            sf::Vector2f(pos0,pos0),
-            sf::Vector2f(velX, velY),
-            5
-        );
-
-        boids.push_back(boid);
-    }
-
+    
+    Flock flock(&window, 200);
 
     while (window.isOpen())
     {
@@ -47,13 +25,11 @@ int main()
                 window.close();
         }
 
-        float dt = 1.0f/60.0f;
+        float dt = 1.0f/45.0f;
         window.clear();
         
-        for (BoidObject& boid : boids) {
-            boid.update(dt);
-            boid.draw();
-        }
+        flock.update(dt);
+        flock.draw();
 
         window.display();
     }

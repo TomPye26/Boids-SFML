@@ -11,7 +11,7 @@ set(SFML_DIR "C:/Program Files/SFML/lib/cmake/SFML")
 # Find the SFML package
 find_package(SFML 2.6.2 REQUIRED graphics window system)
 
-add_executable(SFMLApp src/main.cpp src/BoidObject.cpp)
+add_executable(SFMLApp src/main.cpp src/BoidObject.cpp src/Flock.cpp)
 
 # Link SFML libraries
 target_link_libraries(SFMLApp sfml-graphics sfml-window sfml-system)
