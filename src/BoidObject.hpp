@@ -11,8 +11,6 @@ public:
     @breif: initaliser for boid object
 
     @param pWindow: pointer to SFML window that the boid is drawn on.
-    @param pos: 2D vector of inital position.
-    @param vel: 2D vector of inital velocity.
     @param size: scalar value to scale size of object.
     */
     BoidObject(

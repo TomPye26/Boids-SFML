@@ -8,7 +8,7 @@
 class Flock {
 public:
 
-    Flock(sf::RenderWindow* pWindow, int nBoids);
+    Flock(sf::RenderWindow* pWindow, int nBoids, float boidSize);
 
     void draw();
 
@@ -18,6 +18,8 @@ private:
     sf::RenderWindow* pWindow;
     
     std::vector<BoidObject> boids;
+
+    static const float boidSize;
 };
 
 #endif //FLOCK_H

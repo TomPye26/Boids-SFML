@@ -14,10 +14,8 @@ BoidObject::BoidObject(
     shape.setPoint(1, sf::Vector2f(-5, 5) * size);  // left point
     shape.setPoint(2, sf::Vector2f(0, 2.5) * size); // inner-middle point
     shape.setPoint(3, sf::Vector2f(5, 5) * size);   // Right point
-    shape.setFillColor(sf::Color::White);     // Color of the boid
+    shape.setFillColor(sf::Color::White);
     shape.setOrigin(0.f, 0.f);
-    // shape.setPosition(pos);
-    // setAngle(); 
 };
 
 void BoidObject::setPosition(sf::Vector2f position) {
@@ -44,13 +42,13 @@ void BoidObject::draw() {
 
 void BoidObject::update(float dt, std::vector<BoidObject>& boids) {
     
-    sf::Vector2f sepForce = calcSeparationForce(boids, 80.0f) / mass;
+    sf::Vector2f sepForce = calcSeparationForce(boids, 50.0f) / mass;
     sf::Vector2f coheForce = calcCohesionForce(boids, 100.0f)  / mass;
-    sf::Vector2f algnForce = calcAlignmentForce(boids, 100.0f)  / mass;
+    sf::Vector2f algnForce = calcAlignmentForce(boids, 75.0f)  / mass;
 
 
     float separationWeight = 4.0;
-    float cohesionWeight = 1.0;
+    float cohesionWeight = 2.0;
     float alignmentWeight = 1.5;
 
     velocity += sepForce * separationWeight;
@@ -155,11 +153,18 @@ sf::Vector2f BoidObject::calcSeparationForce(
             otherBoidCount++;
         }
 
+        float minDistance = 17.5f;
+        if (distToOther < minDistance) {
+        // Apply a stronger repulsive force to push the boid away
+        float overlap = minDistance - distToOther;
+        force += (position - boid.getPosition()) * (overlap * overlap); // Exponential scaling for stronger effect
+        }
     }
     // normalise by how many other boids impact this one.
     if (otherBoidCount>0) {
         force /= float(otherBoidCount);
     }
+
 
     return force;
 

@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-Flock::Flock(sf::RenderWindow* pWindow, int nBoids) : pWindow(pWindow) {
+Flock::Flock(sf::RenderWindow* pWindow, int nBoids, float boidSize) : pWindow(pWindow) {
     
     sf::Vector2u windowSize = pWindow->getSize();
 
@@ -18,17 +18,17 @@ Flock::Flock(sf::RenderWindow* pWindow, int nBoids) : pWindow(pWindow) {
     change mass to scale how much impact the "force" has on boids.
     0.1 seems like a good value.
     */
-    const float boidMass = 0.1f; 
-    const float boidSize = 3.0f;
+    static const float BOID_MASS = 0.1f; 
     // initalise boids in a grid with random velocity
     
+    float spacing = boidSize * 10.0f * 2.0f;
     float posX, posY;
-    posX = 30.0f;
-    posY = 30.0f;
+    posX = spacing/2.0f;
+    posY = spacing/2.0f;
     for (int i=0; i<nBoids; i++) {
         if (posX > windowSize.x) {
-            posY += 100.0f;
-            posX = 30.0f;
+            posY += spacing;
+            posX = spacing/2.0f;
         }
 
         if (posY > windowSize.y) {
@@ -36,12 +36,12 @@ Flock::Flock(sf::RenderWindow* pWindow, int nBoids) : pWindow(pWindow) {
             throw;
         }
 
-        BoidObject boid(pWindow, boidSize, boidMass);
+        BoidObject boid(pWindow, boidSize, BOID_MASS);
         boid.setPosition(sf::Vector2f(posX, posY));
         boid.setVelocity(sf::Vector2f(dist(gen), dist(gen)));
 
         boids.push_back(boid);
-        posX += 100.0f;
+        posX += spacing;
     };
 
 };
